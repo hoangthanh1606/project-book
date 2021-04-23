@@ -1,0 +1,126 @@
+/* PRODUCT DETAILS */
+
+.product-detail {
+  margin-top: 5rem;
+}
+
+.product-detail .details {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 7rem;
+}
+
+.product-detail .left {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid rgb(233, 229, 229); */
+}
+
+.product-detail .left .main {
+  text-align: center;
+  background-color: #f6f2f1;
+  margin-bottom: 2rem;
+  height: 45rem;
+  padding: 3rem;
+  border-bottom: 1px solid rgb(233, 229, 229);
+}
+
+.product-detail .left .main img {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.product-detail .thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-top: -1rem;
+}
+
+.product-detail .thumbnail {
+  /* height: 10rem; */
+  background-color: #f6f2f1;
+  text-align: center;
+  z-index: 0;
+}
+
+.product-detail .thumbnail img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  transition: all 100ms ease-in-out;
+}
+
+.product-detail .thumbnail img:hover {
+  transform: scale(1.1);
+}
+
+.product-detail .right span {
+  display: inline-block;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.product-detail .right h1 {
+  font-size: 4rem;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+.product-detail .right .price {
+  font-size: 600;
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.product-detail .right div {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.product-detail .right select {
+  font-family: "Poppins", sans-serif;
+  width: 7rem;
+  padding: 0.3rem;
+  border: 1px solid var(--grey1);
+  appearance: none;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.product-detail .right .product-status {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.product-detail form {
+  margin-bottom: 2rem;
+}
+
+.product-detail form span {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  z-index: 0;
+}
+
+.product-detail .form .addCart {
+  display: inline-block;
+  background: var(--primary);
+  padding: 0.8rem 4rem;
+  color: var(--white);
+  border-radius: 3rem;
+}
+
+.product-detail h3 {
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
