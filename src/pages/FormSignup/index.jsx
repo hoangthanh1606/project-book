@@ -7,13 +7,14 @@ import {
   MobileOutlined,
 } from "@ant-design/icons";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 0 },
+  wrapperCol: { span: 24 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 4, span: 16 },
+  wrapperCol: { offset: 0, span: 24 },
 };
 
 function FormSignup() {
@@ -27,8 +28,8 @@ function FormSignup() {
 
   return (
     <div className="container1">
-      <div className="signup">
-        <h2 className="signup-heading">Sign Up</h2> <br />
+      <div className="signup" style={{ padding: '10px' }}>
+        <h2 className="signup-heading">REGISTER</h2> <br />
         <Form
           {...layout}
           name="basic"
@@ -43,47 +44,42 @@ function FormSignup() {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Email"
             name="email"
             rules={[
               { required: true, message: "Please input your email!" },
               { type: "email", message: "The input is not valid E-mail!" },
             ]}
           >
-            <Input prefix={<MailOutlined className="site-form-item-icon" />} />
+            <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder='Nhập email...' />
           </Form.Item>
 
           <Form.Item
-            label="Name"
             name="name"
             rules={[{ required: true, message: "Please input your Name!" }]}
           >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder='Nhập tên...' />
           </Form.Item>
 
           <Form.Item
-            label="Phone"
             name="phone"
             rules={[{ required: true, message: "Please input your Phone!" }]}
           >
             <Input
-              prefix={<MobileOutlined className="site-form-item-icon" />}
+              prefix={<MobileOutlined className="site-form-item-icon" />} placeholder='Nhập Số điện thoại...'
             />
           </Form.Item>
 
           <Form.Item
-            label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
             hasFeedback
           >
             <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
+              prefix={<LockOutlined className="site-form-item-icon" />} placeholder='Nhập password...'
             />
           </Form.Item>
 
           <Form.Item
-            label="Re-Password"
             name="password2"
             dependencies={["password"]}
             hasFeedback
@@ -105,7 +101,7 @@ function FormSignup() {
             ]}
           >
             <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
+              prefix={<LockOutlined className="site-form-item-icon" />} placeholder='Xác Nhận lại password...'
             />
           </Form.Item>
 
@@ -115,9 +111,9 @@ function FormSignup() {
               htmlType="submit"
               className="login-form-button"
             >
-              Sign up
+              Register
             </Button>
-            Already have an account? <a href="">Sign in now!</a>
+            Already have an account? <Link to='/login'>Sign in now!</Link>
           </Form.Item>
         </Form>
       </div>

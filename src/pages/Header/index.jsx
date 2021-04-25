@@ -1,89 +1,62 @@
-import React from "react";
-import "./styles.css";
+import React from 'react';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { ShoppingCartOutlined, UserOutlined, FacebookOutlined, InstagramOutlined } from '@ant-design/icons'
+import './styles.css'
 
-import history from "../../utils/history";
+import { logoutAction } from '../../redux/actions'
 
-function Header() {
+function Header(props) {
+  const { logout } = props
   return (
-    //  Header
-    <header id="home" className="header">
-      <nav className="navigation">
-        <div className="nav-center container">
-          <a href="#home" className="logo">
-            <h1>
-              SHOP<span>P</span>E
-            </h1>
-          </a>
+    <>
+      <div className='header-container '>
+        <div className='header-icons'>
+          <FacebookOutlined className='header-container-icon' />
+          <InstagramOutlined className='header-container-icon' />
+        </div>
+        <div className='heading ' >
 
-          <div className="nav-menu">
-            <div className="nav-top">
-              <div className="logo">
-                <h1>
-                  SHOP<span>P</span>E
-                </h1>
-              </div>
-              <div className="close">
-                <i className="fas fa-times"></i>
+          <div className="header-logo">
+            <Link to='/'>
+              <h3>BookStore</h3>
+            </Link>
+          </div>
+          <div className="header-nav">
+            <Link className='header-nav-link' to='/'  > Home</Link>
+            <Link className='header-nav-link' to='/product'>Product</Link>
+            <Link className='header-nav-link' to='/about'>About Us</Link>
+          </div>
+
+          <div className="header-user">
+            <div className='header-user-icon'>
+              <UserOutlined />
+              <div className='header-user-acc'>
+                <Link className='link' to='./login'> Login</Link>
+                <Link className='link' to='./profile'>Profile</Link>
+                <Link className='link' onClick={logout}>Log Out</Link>
               </div>
             </div>
-
-            <ul className="nav-list">
-              <li className="nav-item">
-                <a href="#home" className="nav-link scroll-link">
-                  Home
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a href="#shop" className="nav-link scroll-link">
-                  Products
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a href="#new" className="nav-link scroll-link">
-                  New
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a href="#recent" className="nav-link scroll-link">
-                  Recent
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a href="#blog" className="nav-link scroll-link">
-                  <span>
-                    <i>Blog</i>
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="nav-icons">
-            <span>
-              <i
-                onClick={() => history.push("./login")}
-                className="fas fa-user"
-              ></i>
-            </span>
-            <span>
-              <i className="fas fa-search"></i>
-            </span>
-            <span>
-              <i className="fas fa-shopping-basket"></i>
-            </span>
-          </div>
-
-          <div className="hamburger">
-            <i className="fas fa-bars"></i>
+            <Link className='header-user-link' to='/cart'>
+              <ShoppingCartOutlined />
+            </Link>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </>
   );
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: (params) => dispatch(logoutAction(params))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
