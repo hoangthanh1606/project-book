@@ -220,7 +220,7 @@ const PriceLabel = styled.span`
 
 const PriceRelated = styled.div``;
 
-function productDetailPage() {
+function ProductDetailPage() {
   const ProductData = [
     {
       _id: "1",
@@ -353,4 +353,4 @@ function productDetailPage() {
   );
 }
 
-export default productDetailPage;
+export default ProductDetailPage;

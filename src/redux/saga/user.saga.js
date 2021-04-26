@@ -1,6 +1,7 @@
 import { takeEvery, put } from 'redux-saga/effects'
 import axios from 'axios'
 import history from '../../utils/history'
+import { toast } from 'react-toastify'
 
 function* loginSaga(action) {
   // console.log("function*loginSaga -> action", action)
@@ -16,6 +17,7 @@ function* loginSaga(action) {
     });
     // console.log("function*loginSaga -> result", result)
     if (result.data.length > 0) {
+      toast.success('Đăng nhập thành công');
       localStorage.setItem("userInfo", JSON.stringify(result.data[0]));
       yield put({
         type: "LOGIN_SUCCESS",
@@ -23,14 +25,16 @@ function* loginSaga(action) {
           data: result.data[0]
         },
       });
-      yield history.push('/')
+      yield history.push('/');
+
     } else {
+      toast.error('Tài khoản hoặc không chính xác');
       yield put({
         type: "LOGIN_FAIL",
         payload: {
           error: "Email hoặc mật khẩu không đúng"
         }
-      })
+      });
     }
 
   } catch (e) {
@@ -63,7 +67,7 @@ function* logoutSaga(action) {
           data: a,
         },
       });
-      yield history.push('/products');
+      yield history.push('/login');
     } else {
       yield put({
         type: "LOGOUT_FAIL",

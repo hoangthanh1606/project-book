@@ -3,9 +3,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { getProductListAction } from "../../redux/actions";
+
 const WrapperProduct = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0 1rem;
   @media only screen and (max-width: 996px) {
     grid-template-columns: repeat(2, 1fr);
@@ -181,57 +185,44 @@ const Pagination = styled.ul`
   margin: 4rem 0;
 `;
 
-function productPage() {
-  const ProductData = [
-    {
-      _id: "1",
-      title: "Nhà Giả Kim (2021)",
-      url: "/images/product1.jpg",
-      price: 150000,
-    },
-    {
-      _id: "2",
-      title: "Tìm Em nơi Anh - Find Me",
-      url: "/images/product2.jpg",
-      price: 150000,
-    },
-    {
-      _id: "3",
-      title: "Con Chim Xanh Biếc Bay Về",
-      url: "/images/product3.jpg",
-      price: 150000,
-    },
-    {
-      _id: "4",
-      title: "Hạnh Nhân",
-      url: "/images/product4.jpg",
-      price: 150000,
-    },
-    {
-      _id: "5",
-      title: "999 Lá Thư Gửi Cho Chính Mình",
-      url: "/images/product5.jpg",
-      price: 150000,
-    },
-    {
-      _id: "6",
-      title: "Colorfull",
-      url: "/images/product6.jpg",
-      price: 150000,
-    },
-    {
-      _id: "7",
-      title: "Đảo Mộng Mơ - Ấn Bản Kỷ Niệm 10 Năm Xuất Bản",
-      url: "/images/product7.jpg",
-      price: 150000,
-    },
-    {
-      _id: "8",
-      title: "Dấu Chân Trên Cát (Tái Bản 2020)",
-      url: "/images/product8.jpg",
-      price: 150000,
-    },
-  ];
+function ProductPage({ getProductList, productList }) {
+  useEffect(() => {
+    getProductList({
+      page: 1,
+      limit: 10,
+    });
+  }, []);
+
+  function renderProductList() {
+    return (
+      <WrapperProduct>
+        {productList.data.map((item, index) => (
+          <ProductItem key={index}>
+            <ImgContainer>
+              <Link>
+                <img src={item.image} alt={item.name} />
+              </Link>
+              {item.countInStock === 0 ? (
+                <IconWrapper className="disabled">
+                  <i className="fas fa-shopping-cart"></i>
+                </IconWrapper>
+              ) : (
+                <IconWrapper>
+                  <i className="fas fa-shopping-cart"></i>
+                </IconWrapper>
+              )}
+            </ImgContainer>
+            <Bottom>
+              <ProductLink>{item.name}</ProductLink>
+              <Price>
+                <PriceLabel>${item.price}</PriceLabel>
+              </Price>
+            </Bottom>
+          </ProductItem>
+        ))}
+      </WrapperProduct>
+    );
+  }
 
   return (
     <SectionProduct>
@@ -310,29 +301,7 @@ function productPage() {
             </ItemFilter>
             <button>Apply</button>
           </Form>
-          <WrapperProduct>
-            {ProductData.map((item, index) => (
-              <ProductItem key={index}>
-                <ImgContainer>
-                  <Link>
-                    <img src={item.url} alt={item.title} />
-                  </Link>
-                  <IconWrapper className="disabled">
-                    <i className="fas fa-shopping-cart"></i>
-                  </IconWrapper>
-                  <IconWrapper>
-                    <i className="fas fa-shopping-cart"></i>
-                  </IconWrapper>
-                </ImgContainer>
-                <Bottom>
-                  <ProductLink>{item.title}</ProductLink>
-                  <Price>
-                    <PriceLabel>${item.price}</PriceLabel>
-                  </Price>
-                </Bottom>
-              </ProductItem>
-            ))}
-          </WrapperProduct>
+          {renderProductList()}
           <Pagination></Pagination>
         </RightLayout>
       </ProductsLayout>
@@ -340,4 +309,17 @@ function productPage() {
   );
 }
 
-export default productPage;
+const mapStateToProps = (state) => {
+  const { productList } = state.productReducer;
+  return {
+    productList: productList,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductList: (params) => dispatch(getProductListAction(params)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

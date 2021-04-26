@@ -5,6 +5,10 @@ import styled from "styled-components";
 
 import Title from "../../Title";
 
+import { useEffect } from 'react';
+import { connect } from "react-redux";
+import { getProductListAction } from "../../redux/actions";
+
 // style promotion
 const Wrapper = styled.div`
   display: grid;
@@ -162,7 +166,7 @@ const PriceLabel = styled.span`
 
 const Price = styled.div``;
 
-function Home() {
+function Home({ getProductList, productList }) {
   const CollectionData = [
     {
       url: "/images/promo1.jpeg",
@@ -247,13 +251,17 @@ function Home() {
     },
   ];
 
+  useEffect(() => {
+    getProductList({
+      page: 1,
+      limit: 10,
+    });
+  }, []);
+
   return (
     <>
       <section className="section">
-        <Title
-          title="Books Collections"
-          subtitle="Chossen Goods Books"
-        />
+        <Title title="Books Collections" subtitle="Chossen Goods Books" />
         <Wrapper className="container">
           {CollectionData.map((item, index) => (
             <CollectionItem key={index}>
@@ -270,30 +278,26 @@ function Home() {
       </section>
       {/* product */}
       <section className="section">
-        <Title
-          title="New Products"
-          subtitle="Chossen Goods Books"
-        />
+        <Title title="New Products" subtitle="Chossen Goods Books" />
         <WrapperProduct>
-          {ProductData.map((item, index) => (
+          {productList.data.map((item, index) => (
             <ProductItem key={index}>
               <ImgContainer>
                 <Link>
-                  <img src={item.url} alt={item.title} />
+                  <img src={item.image} alt={item.name} />
                 </Link>
-                <IconWrapper
-                  className="disabled"
-                >
-                  <i className="fas fa-shopping-cart"></i>
-                </IconWrapper>
-                <IconWrapper>
-                  <i className="fas fa-shopping-cart"></i>
-                </IconWrapper>
+                {item.countInStock === 0 ? (
+                  <IconWrapper className="disabled">
+                    <i className="fas fa-shopping-cart"></i>
+                  </IconWrapper>
+                ) : (
+                  <IconWrapper>
+                    <i className="fas fa-shopping-cart"></i>
+                  </IconWrapper>
+                )}
               </ImgContainer>
               <Bottom>
-                <ProductLink>
-                  {item.title}
-                </ProductLink>
+                <ProductLink>{item.name}</ProductLink>
                 <Price>
                   <PriceLabel>${item.price}</PriceLabel>
                 </Price>
@@ -306,4 +310,17 @@ function Home() {
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  const { productList } = state.productReducer;
+  return {
+    productList: productList,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductList: (params) => dispatch(getProductListAction(params)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
