@@ -1,10 +1,15 @@
 import React from "react";
 // import "./styles.css";
+import { connect } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../../Title";
 
 // import history from "../../utils/history";
+
+import { getProductDetailAction } from "../../redux/actions";
+
 
 const ProductDetails = styled.div`
   display: grid;
@@ -123,7 +128,7 @@ const LinkWrapper = styled(Link)`
   color: var(--white);
   border-radius: 3rem;
   margin-bottom: 2rem;
-  &.disabled{
+  &.disabled {
     cursor: default;
     /* pointer-events: none, */
     color: var(--white);
@@ -220,7 +225,7 @@ const PriceLabel = styled.span`
 
 const PriceRelated = styled.div``;
 
-function ProductDetailPage() {
+function ProductDetailPage(productDetail, getProductDetail, match) {
   const ProductData = [
     {
       _id: "1",
@@ -272,6 +277,13 @@ function ProductDetailPage() {
     },
   ];
 
+  const categoryId = match.params.id;
+
+  useEffect(() => {
+    console.log('useEffect has been called');
+    getProductDetail({id : categoryId});
+  }, [])
+
   return (
     <>
       <ProductDetails className="container">
@@ -296,8 +308,8 @@ function ProductDetailPage() {
         </Left>
 
         <Right>
-          <CatLabel>Trang Chủ/Sách Văn Học</CatLabel>
-          <TitleDetail>Nhà Giả Kim</TitleDetail>
+          <CatLabel>Trang Chủ/{productDetail.data.category.name}</CatLabel>
+          <TitleDetail>{productDetail.data.name}</TitleDetail>
           <Price>$300000</Price>
           <Form>
             <div>
@@ -353,4 +365,17 @@ function ProductDetailPage() {
   );
 }
 
-export default ProductDetailPage;
+const mapStateToProps = (state) => {
+  const { productDetail } = state.productReducer;
+  return {
+    productDetail,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductDetail: (params) => dispatch(getProductDetailAction(params)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailPage);

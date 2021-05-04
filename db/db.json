@@ -20,81 +20,118 @@
       "id": 1,
       "name": "Nhà Giả Kim",
       "image": "/images/product1.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "NXB Kim Đồng",
-      "category": "Sách Văn Học",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 1,
+      "publisherId": 1,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 2,
       "name": "Tìm Em Nơi Anh - Find Me",
       "image": "/images/product2.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "NXB Kim Đồng",
-      "category": "Sách Kĩ Năng",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 3,
+      "publisherId": 1,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 3,
       "name": "Con Chim Xanh Biếc Bay Về",
       "image": "/images/product3.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "NXB Trẻ",
-      "category": "Sách Thiếu Nhi",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 4,
+      "publisherId": 2,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 4,
       "name": "Hạnh Nhân",
       "image": "/images/product4.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "NXB Trẻ",
-      "category": "Sách Văn Học",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 1,
+      "publisherId": 2,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 5,
       "name": "999 Lá Thư Gửi Cho Chính Mình",
       "image": "/images/product5.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "Nhã Nam",
-      "category": "Sách Kinh Tế",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 2,
+      "publisherId": 3,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 6,
       "name": "Colorfull",
       "image": "/images/product6.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "NXB Trẻ",
-      "category": "Sách Thiếu Nhi",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 4,
+      "publisherId": 3,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 7,
       "name": "Đảo Mộng Mơ",
       "image": "/images/product7.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "Nhã Nam",
-      "category": "Sách Thiếu Nhi",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 4,
+      "publisherId": 4,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     },
     {
       "id": 8,
       "name": "Dấu Chân Trên Cát",
       "image": "/images/product7.jpg",
-      "price": "150",
-      "countInStock": "5",
-      "publisher": "Nhã Nam",
-      "category": "Sách Văn Học",
+      "price": 150,
+      "countInStock": 5,
+      "categoryId": 3,
+      "publisherId": 4,
       "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum, cupiditate totam? Cum, accusamus placeat dicta reiciendis nobis libero fugiat quam."
     }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Sách Văn Học"
+    },
+    {
+      "id": 2,
+      "name": "Sách Kinh Tế"
+    },
+    {
+      "id": 3,
+      "name": "Sách Kỹ Năng"
+    },
+    {
+      "id": 4,
+      "name": "Sách Thiếu Nhi"
+    }
+  ],
+  "publishers": [
+    {
+      "id": 1,
+      "name": "NXB Trẻ"
+    },
+    {
+      "id": 2,
+      "name": "NXB Kim Đồng"
+    },
+    {
+      "id": 3,
+      "name": "Nhã Nam"
+    },
+    {
+      "id": 4,
+      "name": "Alphabook"
+    }
   ]
+  
 }

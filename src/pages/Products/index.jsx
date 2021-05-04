@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { connect } from "react-redux";
 // import './styles.css'
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { useEffect } from "react";
-import { connect } from "react-redux";
-import { getProductListAction } from "../../redux/actions";
+import history from "../../utils/history";
+
+import {
+  getCategoryListAction,
+  getProductListAction,
+  getPublisherListAction,
+} from "../../redux/actions";
 
 const WrapperProduct = styled.div`
   display: grid;
@@ -131,7 +137,7 @@ const InputContent = styled.input`
   cursor: pointer;
 `;
 
-const LabelContent = styled.label`
+const LabelContent = styled.span`
   color: var(--black);
   margin-left: 1rem;
   font-size: 1.5rem;
@@ -185,24 +191,88 @@ const Pagination = styled.ul`
   margin: 4rem 0;
 `;
 
-function ProductPage({ getProductList, productList }) {
+function ProductPage({
+  getCategoryList,
+  getProductList,
+  getPublisherList,
+  categoryList,
+  productList,
+  publisherList,
+}) {
+  const [categorySelected, setCategorySelected] = useState(null);
+  const [publisherSelected, setPublisherSelected] = useState(null);
+
   useEffect(() => {
+    getCategoryList();
     getProductList({
       page: 1,
       limit: 10,
     });
+    getPublisherList();
   }, []);
+
+  function handleFilterCategory(id) {
+    setCategorySelected(id);
+    getProductList({
+      page: 1,
+      limit: 10,
+      categoryId: id,
+    });
+  }
+
+  function handleFilterPublisher(id) {
+    setPublisherSelected(id);
+    getProductList({
+      page: 1,
+      limit: 10,
+      publisherId: id,
+    });
+  }
+
+  function renderCategoryList() {
+    return categoryList.data.map((item) => {
+      return (
+        <ListContent>
+          <LabelContent
+            onClick={() => handleFilterCategory(item.id)}
+            style={{
+              color: categorySelected === item.id ? "var(--primary)" : "",
+            }}
+          >
+            {item.name}
+          </LabelContent>
+        </ListContent>
+      );
+    });
+  }
+
+  function renderPublisherList() {
+    return publisherList.data.map((item) => {
+      return (
+        <ListContent>
+          <LabelContent
+            onClick={() => handleFilterPublisher(item.id)}
+            style={{
+              color: publisherSelected === item.id ? "var(--primary)" : "",
+            }}
+          >
+            {item.name}
+          </LabelContent>
+        </ListContent>
+      );
+    });
+  }
 
   function renderProductList() {
     return (
       <WrapperProduct>
-        {productList.data.map((item, index) => (
-          <ProductItem key={index}>
+        {productList.data.map((productItem, productIndex) => (
+          <ProductItem key={productIndex}>
             <ImgContainer>
               <Link>
-                <img src={item.image} alt={item.name} />
+                <img src={productItem.image} alt={productItem.name} />
               </Link>
-              {item.countInStock === 0 ? (
+              {productItem.countInStock === 0 ? (
                 <IconWrapper className="disabled">
                   <i className="fas fa-shopping-cart"></i>
                 </IconWrapper>
@@ -213,9 +283,13 @@ function ProductPage({ getProductList, productList }) {
               )}
             </ImgContainer>
             <Bottom>
-              <ProductLink>{item.name}</ProductLink>
+              <ProductLink
+                onClick={() => history.push(`/product/${productItem.id}`)}
+              >
+                {productItem.name}
+              </ProductLink>
               <Price>
-                <PriceLabel>${item.price}</PriceLabel>
+                <PriceLabel>${productItem.price}</PriceLabel>
               </Price>
             </Bottom>
           </ProductItem>
@@ -234,24 +308,16 @@ function ProductPage({ getProductList, productList }) {
             </BlockTitle>
             <BlockContent>
               <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>Sách Văn Học</LabelContent>
+                <LabelContent
+                  onClick={() => handleFilterCategory(null)}
+                  style={{
+                    color: categorySelected === null ? "var(--primary)" : "",
+                  }}
+                >
+                  Tất Cả
+                </LabelContent>
               </ListContent>
-
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>Sách Kinh Tế</LabelContent>
-              </ListContent>
-
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>Sách Kĩ Năng</LabelContent>
-              </ListContent>
-
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>Sách Thiếu Nhi</LabelContent>
-              </ListContent>
+              {renderCategoryList()}
             </BlockContent>
           </div>
 
@@ -260,20 +326,7 @@ function ProductPage({ getProductList, productList }) {
               <LeftHeading>Nhà Cung Cấp</LeftHeading>
             </BlockTitle>
             <BlockContent>
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>NXB Kim Đồng</LabelContent>
-              </ListContent>
-
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>NXB Trẻ</LabelContent>
-              </ListContent>
-
-              <ListContent>
-                <InputContent type="checkbox"></InputContent>
-                <LabelContent>Nhã Nam</LabelContent>
-              </ListContent>
+              <ListContent>{renderPublisherList()}</ListContent>
             </BlockContent>
           </div>
         </LeftLayout>
@@ -296,7 +349,9 @@ function ProductPage({ getProductList, productList }) {
                 <option value="ASC" selected="selected">
                   Tăng dần
                 </option>
-                <option value="DESC">Giảm dần</option>
+                <option value="DESC" onChange={() => handleFilterCategory()}>
+                  Giảm dần
+                </option>
               </select>
             </ItemFilter>
             <button>Apply</button>
@@ -310,15 +365,19 @@ function ProductPage({ getProductList, productList }) {
 }
 
 const mapStateToProps = (state) => {
-  const { productList } = state.productReducer;
+  const { productList, categoryList, publisherList } = state.productReducer;
   return {
     productList: productList,
+    categoryList: categoryList,
+    publisherList: publisherList,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProductList: (params) => dispatch(getProductListAction(params)),
+    getCategoryList: (params) => dispatch(getCategoryListAction(params)),
+    getPublisherList: (params) => dispatch(getPublisherListAction(params)),
   };
 };
 
